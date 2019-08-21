@@ -1,18 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import { theme } from "./theme";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 
-//Redux
+// MUI stuff
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+
+// Redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { SET_AUTHENTICATED } from "./redux/types";
 import { logoutUser, getUserData } from "./redux/actions/userActions";
 
-//Components
+// Components
 import Navbar from "./components/layout/Navbar";
 import AuthRoute from "./util/AuthRoute";
 
@@ -38,13 +41,21 @@ if (token) {
   }
 }
 
+const useStyles = makeStyles({
+  container: {
+    margin: "80px auto 0 auto",
+    maxWidth: "1200px"
+  }
+});
+
 function App() {
+  const classes = useStyles();
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
         <Router>
           <Navbar />
-          <div className="container">
+          <div className={classes.container}>
             <Switch>
               <Route exact path="/" component={home} />
               <AuthRoute exact path="/login" component={login} />
